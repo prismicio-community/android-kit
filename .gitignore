@@ -1,4 +1,5 @@
 .gradle
+/android-kit/repos
 /local.properties
 /.idea
 *.iml
