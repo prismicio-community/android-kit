@@ -1,5 +1,6 @@
 package io.prismic.android.app;
 
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class MainActivity extends ActionBarActivity {
   private Map<String, String> bookmarks;
   private String[] bookmarksArray;
   private DrawerLayout mDrawerLayout;
+  private ActionBarDrawerToggle mDrawerToggle;
   private ListView mDrawerList;
 
   // It's better to have only one Prismic instance in your app - if you have more than one Activity,
@@ -35,6 +37,11 @@ public class MainActivity extends ActionBarActivity {
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.left_drawer);
     mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+    mDrawerLayout.setDrawerListener(mDrawerToggle);
+    getActionBar().setDisplayHomeAsUpEnabled(true);
+    getActionBar().setHomeButtonEnabled(true);
+
     prismic.init();
     prismic.registerListener(apiListener);
   }
@@ -79,9 +86,9 @@ public class MainActivity extends ActionBarActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
+    if (mDrawerToggle.onOptionsItemSelected(item)) {
+      return true;
+    }
     int id = item.getItemId();
     if (id == R.id.action_settings) {
       return true;

@@ -3,5 +3,7 @@
 
     <string name="app_name">Les Bonnes Choses</string>
     <string name="action_settings">Settings</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>

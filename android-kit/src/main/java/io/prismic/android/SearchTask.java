@@ -1,6 +1,7 @@
 package io.prismic.android;
 
 import android.os.AsyncTask;
+import io.prismic.Api;
 import io.prismic.Document;
 import io.prismic.Form;
 
@@ -17,7 +18,12 @@ public class SearchTask extends AsyncTask<Form.Search, Void, List<Document>> {
   @Override
   protected List<Document> doInBackground(Form.Search... params) {
     Form.Search search = params[0];
-    return search.submit();
+    try {
+      return search.submit();
+    } catch (Exception e) {
+      listener.onError(new Api.Error(Api.Error.Code.UNEXPECTED, "Error searching"));
+      return null;
+    }
   }
 
   @Override

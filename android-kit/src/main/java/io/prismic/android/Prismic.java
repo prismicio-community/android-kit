@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 // TODO: Cache
+// TODO: Better error reporting
 public class Prismic {
 
   private String baseUrl;

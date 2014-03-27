@@ -15,7 +15,12 @@ public class FetchApiTask extends AsyncTask<String, Void, Api> {
   protected Api doInBackground(String... params) {
     String url = params[0];
     String token = params.length > 1 ? params[1] : null;
-    return Api.get(url, token);
+    try {
+      return Api.get(url, token);
+    } catch (Exception e) {
+      listener.onError(new Api.Error(Api.Error.Code.UNEXPECTED, "Error fetching API"));
+      return null;
+    }
   }
 
   @Override
