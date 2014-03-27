@@ -1,0 +1,22 @@
+apply plugin: 'java'
+
+version = '1.0'
+jar {
+    manifest.attributes organisation: 'io.prismic', version: version
+}
+
+dependencies {
+    compile 'com.google.android:android:2.2.1'
+    compile 'io.prismic:java-kit:1.0-M7-SNAPSHOT'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+
