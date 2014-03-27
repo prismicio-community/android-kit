@@ -1,1 +1,1 @@
-include ':demo', ':android-kit'
+include ':android-kit'
