@@ -1,7 +1,9 @@
 package io.prismic.android;
 
+import android.content.Context;
 import android.util.Log;
 import io.prismic.Api;
+import io.prismic.Cache;
 import io.prismic.Document;
 import io.prismic.Form;
 
@@ -9,22 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Cache
 // TODO: Better error reporting
 public class Prismic {
 
-  private String baseUrl;
-  private String token;
+  private final Context context;
+  private final String baseUrl;
+  private final String token;
+  private final AndroidCache cache;
+  private final AndroidLogger logger;
   private List<Listener<Api>> apiListeners = new ArrayList<Listener<Api>>();
   public Api api = null;
 
-  public Prismic(String baseUrl, String token) {
+  public Prismic(Context context, String baseUrl, String token) {
+    this.context = context;
     this.baseUrl = baseUrl;
     this.token = token;
+    this.cache = new AndroidCache(context);
+    this.logger = new AndroidLogger();
   }
 
-  public Prismic(String baseUrl) {
-    this(baseUrl, null);
+  public Prismic(Context context, String baseUrl) {
+    this(context, baseUrl, null);
   }
 
   public void init() {
@@ -36,7 +43,7 @@ public class Prismic {
           listener.onSuccess(api);
         }
       }
-    }).execute(baseUrl, token);
+    }, cache, logger).execute(baseUrl, token);
   }
 
   public Map<String, String> getBookmarks() {

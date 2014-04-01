@@ -1,9 +1,7 @@
 apply plugin: 'java'
 
-version = '1.0'
-jar {
-    manifest.attributes organisation: 'io.prismic', version: version
-}
+group = 'io.prismic'
+version = '0.1-SNAPSHOT'
 
 dependencies {
     compile 'com.google.android:android:2.2.1'
@@ -14,9 +12,7 @@ dependencies {
 
 uploadArchives {
     repositories {
-       flatDir {
-           dirs 'repos'
-       }
+        mavenLocal()
     }
 }
 
