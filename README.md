@@ -69,8 +69,14 @@ You can find out [how to get started with prismic.io](https://developers.prismic
 
 Also on our [prismic.io developer's portal](https://developers.prismic.io/), on top of our full documentation, you will:
  * get a thorough introduction of [how to use prismic.io kits](https://developers.prismic.io/documentation/UjBe8bGIJ3EKtgBZ/api-documentation#kits-and-helpers), including this one.
- * see [what else is available for Java](https://developers.prismic.io/technologies/UjBh0MuvzeMJvE4g/java): starter projects, examples, ...
 
+The easiest way to get started is to look at the [Android starter](https://github.com/prismicio/android-starter).
+
+The steps to retrieve documents are the following:
+ * Create a singleton instance of Prismic with the URL of your repository and optionally the token [(example)](https://github.com/prismicio/android-starter/blob/master/demo/src/main/java/io/prismic/android/app/DemoApplication.java) and make sure to initialize it.
+ * The initialization is asynchronous, so make sure the Api is ready before using it by registering a listener [(example)](https://github.com/prismicio/android-starter/blob/master/demo/src/main/java/io/prismic/android/app/MainActivity.java#L51)
+
+That's it, you can make your calls to your Prismic repository. See the javadoc for more details.
 
 #### Kit's detailed documentation
 
