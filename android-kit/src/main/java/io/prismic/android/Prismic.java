@@ -11,7 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Better error reporting
+/**
+ * The main class to instantiate for your project.
+ *
+ * You should keep a singleton of it in your app. It can be in the Activity if you have only one, or in the Application class otherwise.
+ *
+ * Make sure to call init() before you use it.
+ */
 public class Prismic {
 
   private final Context context;
@@ -34,6 +40,10 @@ public class Prismic {
     this(context, baseUrl, null);
   }
 
+  /**
+   * Initialize the kit and fetch the Api. It is an asynchronous process, so make sure to register a listener to be notified
+   * when the Api is ready.
+   */
   public void init() {
     new FetchApiTask(new Listener<Api>() {
       @Override
@@ -80,6 +90,10 @@ public class Prismic {
     }).execute(this.api.getForm("everything").query("[[:d = at(document.id, \"" + id + "\")]]").ref(this.api.getMaster()));
  }
 
+  /**
+   * Register a listener to be notified when the Api is ready. If the Api is already ready when this method is called,
+   * the callback will be called immediately.
+   */
   public void registerListener(Listener<Api> listener) {
     if (api != null) {
       listener.onSuccess(api);
