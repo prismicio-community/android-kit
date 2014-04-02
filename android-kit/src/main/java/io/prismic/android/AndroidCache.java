@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public class AndroidCache implements io.prismic.Cache {
@@ -22,30 +23,31 @@ public class AndroidCache implements io.prismic.Cache {
   public void set(String url, Long expiration, JsonNode response) {
     Long expire = new Date().getTime() + expiration;
     try {
-      String fileName = Uri.parse(url).getLastPathSegment();
-      Log.w("prismic", "Saving " + fileName + " to cache");
-      File file = File.createTempFile(fileName, null, context.getCacheDir());
+      File file = getFile(url);
+      Log.w("prismic", "Saving " + file.getAbsolutePath() + " to cache");
+      file.createNewFile();
       FileOutputStream out = new FileOutputStream(file);
-      String content = "" + expire + "\n" + response.asText();
+      String content = "" + expire + "\n" + mapper.writeValueAsString(response);
       out.write(content.getBytes());
       out.close();
-    } catch (IOException e) {
+    } catch (Exception e) {
       // Error while creating file
-      Log.w("prismic", "Failed to save " + url + " to cache");
+      Log.w("prismic", "Failed to save " + url + " to cache " + e.getMessage());
     }
   }
 
   @Override
   public JsonNode get(String url) {
+    Log.v("prismic", "Look in cache: " + url);
     try {
-      String fileName = Uri.parse(url).getLastPathSegment();
-      File f = new File(context.getCacheDir(), fileName);
+      File f = getFile(url);
       if (f.exists()) {
         InputStream is = new BufferedInputStream(new FileInputStream(f));
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String expirationLine = reader.readLine();
         if (Long.parseLong(expirationLine) < new Date().getTime()) {
           // This cache entry has expired
+          Log.v("prismic", "Cache has expired! Delete it");
           reader.close();
           f.delete();
           return null;
@@ -53,11 +55,18 @@ public class AndroidCache implements io.prismic.Cache {
         String jsonLine = reader.readLine();
         Log.v("prismic", "Successfully retrieved " + url + " from cache");
         return mapper.readTree(jsonLine);
+      } else {
+        Log.v("prismic", "Couldn't find file " + f.getAbsolutePath());
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       Log.e("prismic", "Error getting cache entry for: " + url);
     }
     return null;
+  }
+
+  private File getFile(String url) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    String fileName = Crypto.SHA1(url);
+    return new File(context.getCacheDir(), fileName);
   }
 
   public void cleanup() {
