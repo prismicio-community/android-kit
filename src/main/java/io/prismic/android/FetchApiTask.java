@@ -1,6 +1,7 @@
 package io.prismic.android;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import io.prismic.Api;
 import io.prismic.Cache;
 import io.prismic.Logger;
@@ -24,6 +25,9 @@ public class FetchApiTask extends AsyncTask<String, Void, Api> {
     try {
       return Api.get(url, token, cache, logger);
     } catch (Exception e) {
+      Log.e("prismic", "Error fetching API", e);
+      e.printStackTrace();
+      e.printStackTrace();
       listener.onError(new Api.Error(Api.Error.Code.UNEXPECTED, "Error fetching API"));
       return null;
     }

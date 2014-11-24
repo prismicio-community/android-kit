@@ -2,10 +2,7 @@ package io.prismic.android;
 
 import android.content.Context;
 import android.util.Log;
-import io.prismic.Api;
-import io.prismic.Cache;
-import io.prismic.Document;
-import io.prismic.Form;
+import io.prismic.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,17 +75,17 @@ public class Prismic {
   }
 
   public void getDocument(String id, final Listener<Document> listener) {
-    new SearchTask(new Listener<List<Document>>() {
+    new SearchTask(new Listener<Response>() {
       @Override
-      public void onSuccess(List<Document> result) {
-        if (result != null && result.size() > 0) {
-          listener.onSuccess(result.get(0));
+      public void onSuccess(Response result) {
+        if (result != null && result.getTotalResultsSize() > 0) {
+          listener.onSuccess(result.getResults().get(0));
         } else {
           listener.onSuccess(null);
         }
       }
-    }).execute(this.api.getForm("everything").query("[[:d = at(document.id, \"" + id + "\")]]").ref(this.api.getMaster()));
- }
+    }).execute(this.api.getForm("everything").query(Predicates.at("document.id", id)).ref(this.api.getMaster()));
+  }
 
   /**
    * Register a listener to be notified when the Api is ready. If the Api is already ready when this method is called,

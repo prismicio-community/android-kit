@@ -4,7 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Crypto {
+class Crypto {
+
   private static String convertToHex(byte[] data) {
     StringBuilder buf = new StringBuilder();
     for (byte b : data) {
@@ -24,4 +25,5 @@ public class Crypto {
     byte[] sha1hash = md.digest();
     return convertToHex(sha1hash);
   }
+
 }

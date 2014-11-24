@@ -1,7 +1,6 @@
 package io.prismic.android;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +9,9 @@ import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
+/**
+ * An Android implementation of the Cache API, saving to files on the user's device
+ */
 public class AndroidCache implements io.prismic.Cache {
 
   private final Context context;
@@ -62,6 +64,41 @@ public class AndroidCache implements io.prismic.Cache {
       Log.e("prismic", "Error getting cache entry for: " + url);
     }
     return null;
+  }
+
+  @Override
+  public JsonNode getOrSet(String key, Long ttl, Callback f) {
+    JsonNode result = get(key);
+    if (result == null) {
+      result = f.execute();
+      set(key, ttl, result);
+    }
+    return result;
+  }
+
+  @Override
+  public Boolean isExpired(String key) {
+    File f;
+    try {
+      f = getFile(key);
+      if (f.exists()) {
+        InputStream is = new BufferedInputStream(new FileInputStream(f));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        String expirationLine = reader.readLine();
+        if (Long.parseLong(expirationLine) < new Date().getTime()) {
+          // This cache entry has expired
+          return true;
+        }
+      }
+    } catch (Exception e) {
+      return false;
+    }
+    return false;
+  }
+
+  @Override
+  public Boolean isPending(String key) {
+    return false;
   }
 
   private File getFile(String url) throws UnsupportedEncodingException, NoSuchAlgorithmException {

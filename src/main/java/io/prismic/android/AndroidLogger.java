@@ -3,6 +3,9 @@ package io.prismic.android;
 import android.util.Log;
 import io.prismic.Logger;
 
+/**
+ * An Android implementation of the Prismic Logger API
+ */
 public class AndroidLogger implements Logger {
   @Override
   public void log(String level, String message) {
