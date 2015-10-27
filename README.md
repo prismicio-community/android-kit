@@ -1,28 +1,21 @@
 ## Android development kit for prismic.io
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.prismic/android-kit/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.prismic/android-kit)
+[![Build Status](https://api.travis-ci.org/prismicio/android-kit.png)](https://travis-ci.org/prismicio/android-kit)
+
 ### Getting started
 
-The kit can be installed through Maven, Gradle or if you don't use a build system by dumping the jars in your lib directory.
+The kit can be installed through Maven, Gradle or if you don't use a build system by dumping the jars in your lib directory. See the badge above for the latest version number.
 
 #### [Maven](http://maven.apache.org/)
 
-You can find this library in our own Maven repository (hosted on Github).
-
-```
-<repository>
-  <id>prismicio</id>
-  <name>prismic.io Repository</name>
-  <url>https://github.com/prismicio/repository/raw/master/maven/</url>
-</repository>
-```
-
-The kit coordinates are:
+It is available on Maven Central. The kit coordinates are:
 
 ```
 <dependency>
   <groupId>io.prismic</groupId>
   <artifactId>android-kit</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
@@ -32,29 +25,19 @@ The kit coordinates are:
 
 The package is the same as for Maven.
 
-Repository:
-
-```
-repositories {
-    maven {
-        url "https://raw.github.com/prismicio/repository/master/maven/"
-    }
-}
-```
-
 Kit:
 
 ```
 dependencies {
-    compile 'io.prismic:android-kit:0.1-SNAPSHOT'
+    compile 'io.prismic:android-kit:1.2.0'
 }
 ```
 
 #### Include the kit and dependencies as an unmanaged jar
 
 You will need the following jars:
- * android-kit-0.1-SNAPSHOT.jar
- * java-kit-1.0-M7-SNAPSHOT.jar
+ * android-kit-1.2.0.jar
+ * java-kit-1.3.2.jar
  * jackson-databind-2.2.2.jar
  * jackson-annotations-2.2.2.jar
  * jackson-core-2.2.2.jar
