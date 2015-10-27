@@ -76,31 +76,6 @@ public class AndroidCache implements io.prismic.Cache {
     return result;
   }
 
-  @Override
-  public Boolean isExpired(String key) {
-    File f;
-    try {
-      f = getFile(key);
-      if (f.exists()) {
-        InputStream is = new BufferedInputStream(new FileInputStream(f));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        String expirationLine = reader.readLine();
-        if (Long.parseLong(expirationLine) < new Date().getTime()) {
-          // This cache entry has expired
-          return true;
-        }
-      }
-    } catch (Exception e) {
-      return false;
-    }
-    return false;
-  }
-
-  @Override
-  public Boolean isPending(String key) {
-    return false;
-  }
-
   private File getFile(String url) throws UnsupportedEncodingException, NoSuchAlgorithmException {
     String fileName = Crypto.SHA1(url);
     return new File(context.getCacheDir(), fileName);
