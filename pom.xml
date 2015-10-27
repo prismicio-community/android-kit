@@ -4,7 +4,7 @@
     <groupId>io.prismic</groupId>
     <artifactId>android-kit</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <name>android-kit</name>
     <description>The developer kit for Android applications.</description>
     <url>http://maven.apache.org</url>
