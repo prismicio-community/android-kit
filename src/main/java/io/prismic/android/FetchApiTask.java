@@ -35,7 +35,9 @@ public class FetchApiTask extends AsyncTask<String, Void, Api> {
 
   @Override
   protected void onPostExecute(Api api) {
-    listener.onSuccess(api);
+    if (api != null) {
+      listener.onSuccess(api);
+    }
   }
 
 }
