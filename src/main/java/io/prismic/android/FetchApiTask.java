@@ -27,7 +27,6 @@ public class FetchApiTask extends AsyncTask<String, Void, Api> {
     } catch (Exception e) {
       Log.e("prismic", "Error fetching API", e);
       e.printStackTrace();
-      e.printStackTrace();
       listener.onError(new Api.Error(Api.Error.Code.UNEXPECTED, "Error fetching API"));
       return null;
     }
