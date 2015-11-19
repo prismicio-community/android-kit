@@ -26,7 +26,9 @@ public class SearchTask extends AsyncTask<Form.SearchForm, Void, Response> {
 
   @Override
   protected void onPostExecute(Response result) {
-    listener.onSuccess(result);
+    if (result != null) {
+      listener.onSuccess(result);
+    }
   }
 
 }
