@@ -1,6 +1,8 @@
 package io.prismic.android;
 
 import android.os.AsyncTask;
+import android.util.Log;
+
 import io.prismic.Api;
 import io.prismic.Form;
 import io.prismic.Response;
@@ -19,6 +21,8 @@ public class SearchTask extends AsyncTask<Form.SearchForm, Void, Response> {
     try {
       return search.submit();
     } catch (Exception e) {
+      Log.e("prismic", "Error searching", e);
+      e.printStackTrace();
       listener.onError(new Api.Error(Api.Error.Code.UNEXPECTED, "Error searching"));
       return null;
     }
@@ -26,7 +30,9 @@ public class SearchTask extends AsyncTask<Form.SearchForm, Void, Response> {
 
   @Override
   protected void onPostExecute(Response result) {
-    listener.onSuccess(result);
+    if (result != null) {
+      listener.onSuccess(result);
+    }
   }
 
 }
